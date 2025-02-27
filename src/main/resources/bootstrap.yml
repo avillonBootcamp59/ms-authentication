@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: ms-authentication
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      retry:
+        max-attempts: 5
+        initial-interval: 1000
+
+jwt:
+  secret: "Clavesecretalsldfsdlfjsldfjsdfs29347294230n"
