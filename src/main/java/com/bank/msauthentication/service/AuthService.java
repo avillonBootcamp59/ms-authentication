@@ -1,13 +1,10 @@
 package com.bank.msauthentication.service;
 
 
-import com.bank.msauthentication.entity.UserEntity;
 import com.bank.msauthentication.util.JwtUtil;
 import com.bank.msauthentication.repository.UserRepository;
-import io.reactivex.rxjava3.core.Single;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @Service
 public class AuthService {
@@ -21,7 +18,7 @@ public class AuthService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public Single<String> registerUser(UserEntity user) {
+  /*  public Single<String> registerUser(UserEntity user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return Single.fromPublisher(
@@ -37,5 +34,7 @@ public class AuthService {
                 .map(user -> jwtUtil.generateToken(username))
                 .switchIfEmpty(Single.error(new RuntimeException("Credenciales inválidas")));
     }
+*/
+
 }
 

@@ -6,37 +6,36 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Date; 
+import java.security.Key;
+import java.time.ZoneId;
+import java.util.*;
 
 @Slf4j
 @Component
 public class JwtUtil {
 
 
-    private final SecretKey key;
-
-
-    public JwtUtil(@Value("${jwt.secret}") String secret) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
-    }
-
+    @Value("${key_token}")
+    private String privateKey;
 
     public String generateToken(String username) {
-        return Jwts.builder()
+         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setId(UUID.randomUUID().toString())
+                .signWith(getSignKey())
                 .compact();
     }
 
 
+
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(privateKey).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
@@ -45,6 +44,17 @@ public class JwtUtil {
 
 
     public Claims extractClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(privateKey).build().parseClaimsJws(token).getBody();
+    }
+
+    public Claims decodeToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(getSignKey())
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private Key getSignKey() {
+        return Keys.hmacShaKeyFor(Base64.getEncoder().encode(privateKey.getBytes()));
     }
 }

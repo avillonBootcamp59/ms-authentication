@@ -4,10 +4,16 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
+      label: master
+      username: root
+      password: s3cr3t
       fail-fast: true
       retry:
         max-attempts: 5
         initial-interval: 1000
+  profiles:
+    active: local
+logback:
+  elk:
+    destination: localhost:5000
 
-jwt:
-  secret: "Clavesecretalsldfsdlfjsldfjsdfs29347294230n"

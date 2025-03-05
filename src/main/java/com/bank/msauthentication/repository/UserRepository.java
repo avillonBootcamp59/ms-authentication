@@ -1,13 +1,13 @@
 package com.bank.msauthentication.repository;
 
 import com.bank.msauthentication.entity.UserEntity;
-import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Single;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface UserRepository extends ReactiveCrudRepository<UserEntity, String> {
-    Maybe<UserEntity> findByUsername(String username);
+public interface UserRepository extends MongoRepository<UserEntity, String> {
+    Optional<UserEntity> findByUsername(String username);
 
 }
