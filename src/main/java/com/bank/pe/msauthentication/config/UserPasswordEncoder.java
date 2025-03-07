@@ -1,6 +1,5 @@
-package com.bank.msauthentication.config;
+package com.bank.pe.msauthentication.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -12,9 +11,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
-@Slf4j
 @RefreshScope
-public class AuthPasswordEncoder implements PasswordEncoder {
+public class UserPasswordEncoder implements PasswordEncoder {
 
     @Value("${key_encriptacion}")
     private String keyEncriptacion;
@@ -37,7 +35,6 @@ public class AuthPasswordEncoder implements PasswordEncoder {
             byte[] buf = cipher.doFinal(plainTextBytes);
             base64EncryptedString = Base64.encodeBase64String(buf);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
 

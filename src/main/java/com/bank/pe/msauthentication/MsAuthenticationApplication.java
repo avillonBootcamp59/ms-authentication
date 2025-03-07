@@ -1,4 +1,4 @@
-package com.bank.msauthentication;
+package com.bank.pe.msauthentication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

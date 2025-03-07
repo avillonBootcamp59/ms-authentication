@@ -11,9 +11,18 @@ spring:
       retry:
         max-attempts: 5
         initial-interval: 1000
-  profiles:
-    active: local
 logback:
   elk:
     destination: localhost:5000
 
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  level:
+    root: INFO
+    com.bank.pe: DEBUG

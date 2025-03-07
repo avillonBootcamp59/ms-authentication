@@ -1,4 +1,4 @@
-package com.bank.msauthentication.exception;
+package com.bank.pe.msauthentication.exception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

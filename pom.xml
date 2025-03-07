@@ -25,11 +25,6 @@
     </properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
 		<!-- MongoDB -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -41,7 +36,10 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -142,12 +140,6 @@
 			<artifactId>janino</artifactId>
 			<version>3.0.16</version>
 		</dependency>
-		<dependency>
-			<groupId>io.reactivex.rxjava3</groupId>
-			<artifactId>rxjava</artifactId>
-			<version>3.1.6</version>
-		</dependency>
-
 	</dependencies>
 
 	<dependencyManagement>

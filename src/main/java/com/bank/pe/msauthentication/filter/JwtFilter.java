@@ -1,8 +1,8 @@
-package com.bank.msauthentication.filter;
-import com.bank.msauthentication.service.AuthService;
-import com.bank.msauthentication.util.JwtUtil;
+package com.bank.pe.msauthentication.filter;
+import com.bank.pe.msauthentication.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -12,35 +12,37 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.server.WebFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Slf4j
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtUtil jwtUtil;
+
+    private final JwtUtil jtUtil;
 
 
     private final HandlerExceptionResolver resolver;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil,
-                                   @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
-        this.jwtUtil = jwtUtil;
+    public JwtFilter(JwtUtil jtUtil,
+                     @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
+        this.jtUtil = jtUtil;
         this.resolver = resolver;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
 
             if (authHeader == null || authHeader.isEmpty()) {
-                if (request.getRequestURI().contains( "/v1.0/auth/login") ||
-                        request.getRequestURI().contains("/actuator/**")) {
+                if (request.getRequestURI().contains("/api/v1/auth/register") ||
+                        request.getRequestURI().contains("/api/v1/auth/login") ||
+                        request.getRequestURI().contains("/actuator")  ) {
                     filterChain.doFilter(request, response);
                     return;
                 } else {
@@ -56,12 +58,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             jwt = authHeader.substring(7);
 
-            Claims claims = jwtUtil.decodeToken(jwt);
+            Claims claims = jtUtil.decodeToken(jwt);
 
-          /*  if (claims.get(ConstanteUtil.TOKEN_INF_TIPO, String.class).equals(ConstanteUtil.TOKEN_TIPO_REFRESHTOKEN) &&
-                    !request.getRequestURI().contains(ConstanteUtil.PATH_SEGURIDAD_REFRESHTOKEN))
-                throw new Exception401(ConstanteUtil.MENSAJE_ERROR_USO_INDEBIDO_REFRESHTOKEN);
-*/
+
             if (claims.getSubject() != null && !claims.getSubject().isEmpty() &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
                 UsernamePasswordAuthenticationToken authentication =
