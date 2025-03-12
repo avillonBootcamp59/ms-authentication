@@ -30,8 +30,7 @@ jobs:
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+          restore-keys: ${{ runner.os }}-m2 
 
       # Ejecutar el análisis de SonarCloud
       - name: Build and analyze
