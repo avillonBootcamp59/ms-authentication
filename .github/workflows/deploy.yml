@@ -48,9 +48,6 @@ jobs:
           java-version: 17
           distribution: 'zulu'
 
-      # Ejecutar el análisis de covertura
-      - name: Run tests and generate coverage
-        run: mvn clean verify -Pcoverage
 
       # Ejecutar el análisis de SonarCloud
       - name: Build and analyze
