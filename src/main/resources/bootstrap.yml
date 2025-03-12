@@ -3,10 +3,11 @@ spring:
     name: ms-authentication
   cloud:
     config:
+      enabled: false
       uri: http://localhost:8888
       label: master
-      username: root
-      password: s3cr3t
+      username: avillon
+      password: 4v1ll0nJd
       fail-fast: true
       retry:
         max-attempts: 5

@@ -8,6 +8,7 @@ import com.bank.pe.msauthentication.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -26,15 +27,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public Mono<ResponseEntity<AuthResponse>> login(@RequestBody AuthRequest authRequest) {
-        return userService.authenticateUser(authRequest.getUsername(), authRequest.getPassword())
-                .map(user -> {
-                    String token = jwtUtil.generateToken(user.getUsername());
-                    System.out.println("token: " + token);
+        return userService.login(authRequest)
+                .map(userDetails -> {
+                    String token = jwtUtil.generateToken(userDetails);
                     return ResponseEntity.ok(new AuthResponse(token));
                 })
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()); // Retorna 401 si el usuario no existe
-
     }
+
 
     @PostMapping("/register")
     public Mono<ResponseEntity<UserEntity>> register(@RequestBody AuthRequest authRequest) {
