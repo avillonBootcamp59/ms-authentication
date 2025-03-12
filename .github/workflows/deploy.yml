@@ -60,5 +60,4 @@ jobs:
             -Dsonar.organization=avillonbootcamp59 \
             -Dsonar.projectKey=avillonBootcamp59_ms-authentication \
             -Dsonar.branch.name=master \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
